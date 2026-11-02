@@ -4,4 +4,4 @@
 :HL["/liam-collins-coaching/_next/static/media/GlacialIndifference_Regular-s.p.17jmud0guh66x.otf","font",{"crossOrigin":"","type":"font/otf"}]
 :HL["/liam-collins-coaching/_next/static/media/f7b48c08887b43f1-s.p.0bzcjdl2q1bg1.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"hWJba5ZDpd9ZyXdv0F6H7","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"IjtXwoCiZ_cRzelcm4ES7","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
