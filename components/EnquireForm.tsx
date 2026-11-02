@@ -3,7 +3,7 @@
 import { FormEvent, useState, type ReactNode } from "react";
 import { enquiryWhatsappText, whatsappLink } from "@/lib/contact";
 import { finalCta, goals, tiers } from "@/lib/content";
-import { validateEnquiry, type ContactPreference, type EnquiryErrors } from "@/lib/enquiry";
+import { sendEnquiry, validateEnquiry, type ContactPreference, type EnquiryErrors } from "@/lib/enquiry";
 import { useSite } from "@/components/SiteProvider";
 import { cn } from "@/lib/cn";
 
@@ -68,24 +68,19 @@ export function EnquireForm() {
         : null;
 
     try {
-      const response = await fetch("/api/enquire", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = (await response.json()) as { ok?: boolean; error?: string };
+      const data = await sendEnquiry(payload);
 
       if (link) {
         setWhatsappHref(link);
         window.open(link, "_blank", "noopener,noreferrer");
       }
 
-      if (!response.ok || !data.ok) {
+      if (!data.ok) {
         setStatus("error");
         setErrors({
           form: link
-            ? `${data.error ?? "Email didn’t send."} Your WhatsApp chat should be open with the same details.`
-            : (data.error ?? "Something went wrong. Please try again."),
+            ? `${data.error} Your WhatsApp chat should be open with the same details.`
+            : data.error,
         });
         return;
       }

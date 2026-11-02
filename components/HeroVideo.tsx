@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export function HeroVideo() {
   const ref = useRef<HTMLVideoElement>(null);
 
@@ -45,11 +47,11 @@ export function HeroVideo() {
       loop
       playsInline
       preload="auto"
-      poster="/hero-poster.jpg"
+      poster={`${basePath}/hero-poster.jpg`}
       disablePictureInPicture
       aria-hidden="true"
     >
-      <source src="/hero.mp4?v=2" type="video/mp4" />
+      <source src={`${basePath}/hero.mp4?v=2`} type="video/mp4" />
     </video>
   );
 }

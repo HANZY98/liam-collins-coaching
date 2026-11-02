@@ -1,4 +1,4 @@
-import { goals, tiers, type CoachingLevel } from "@/lib/content";
+import { goals, levelLabel, tiers, type CoachingLevel } from "@/lib/content";
 
 export type ContactPreference = "email" | "whatsapp";
 
@@ -57,4 +57,41 @@ export function validateEnquiry(input: EnquiryPayload): EnquiryErrors | null {
   if (input.message.length > 2000) errors.message = "Keep your message under 2000 characters.";
 
   return Object.keys(errors).length ? errors : null;
+}
+
+export async function sendEnquiry(payload: EnquiryPayload) {
+  if (payload.company?.trim()) return { ok: true as const };
+
+  const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+  if (!accessKey) {
+    return {
+      ok: false as const,
+      error:
+        "Email isn’t connected yet. Add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY so enquiries land in Liam’s inbox.",
+    };
+  }
+
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      access_key: accessKey,
+      subject: `Coaching enquiry — ${payload.firstName.trim()} ${payload.lastName.trim()} (${levelLabel(payload.level)})`,
+      from_name: "Liam Collins Coaching",
+      name: `${payload.firstName.trim()} ${payload.lastName.trim()}`,
+      email: payload.email.trim(),
+      phone: payload.phone.trim(),
+      coaching_level: levelLabel(payload.level),
+      goals: payload.goals.join(", "),
+      contact_preference: payload.preference === "whatsapp" ? "WhatsApp" : "Email",
+      message: payload.message.trim() || "No message added.",
+    }),
+  });
+
+  const data = (await response.json().catch(() => null)) as { success?: boolean } | null;
+  if (!response.ok || !data?.success) {
+    return { ok: false as const, error: "The enquiry didn’t send. Please try again in a moment." };
+  }
+
+  return { ok: true as const };
 }
