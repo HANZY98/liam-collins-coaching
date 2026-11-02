@@ -1,4 +1,4 @@
-:HL["/liam-collins-coaching/_next/static/chunks/1-dc08oim0usq.css","style"]
+:HL["/liam-collins-coaching/_next/static/chunks/1kr66mw_d2qb_.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"KKLcEZsYUf42D5t9Z4vC6","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"oLSwTxPUrJ09aHUwEhAF7","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
